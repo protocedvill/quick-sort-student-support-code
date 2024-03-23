@@ -3,7 +3,15 @@ public class ArraySequence<T> implements Sequence<T> {
 	public ArraySequence(T[] a) { array = a; }
 	public Iterator<T> begin() { return new ArrayIterator<T>(array,0); }
 	public Iterator<T> end() { return new ArrayIterator<T>(array, array.length); }
-	
+
+	public String toString() {
+		String str = "";
+		for(T t : array) {
+			str = str + t + " ";
+		}
+		return str;
+	}
+
 	class ArrayIterator<T> implements Iterator<T> {
 		private T[] array;
 		private int pos;
@@ -15,6 +23,10 @@ public class ArraySequence<T> implements Sequence<T> {
 		public boolean equals(Iterator<T> other) {
 			ArrayIterator<T> i = (ArrayIterator<T>) other;
 			return pos == i.pos;
+		}
+
+		public String toString() {
+			return array[pos] + " @ " + pos;
 		}
 	}
 }

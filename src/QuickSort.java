@@ -8,7 +8,26 @@ public class QuickSort {
      */
     public static <E extends Comparable<? super E>>
     void quicksort(Iterator<E> begin, Iterator<E> end) {
-        return;  // replace this line with your code
+        if (begin.equals(end)) return;
+
+        Iterator<E> traverse = begin;
+        Iterator<E> pivot = begin.clone();
+        Iterator<E> low = begin.clone();
+        Iterator<E> high = begin.clone();
+        while (!traverse.equals(end)) {
+            if(0 < traverse.get().compareTo(pivot.get())) {
+                // if holding is greater than the pivot then
+                low.advance();
+                Algorithms.iter_swap(high, low);
+                traverse.advance();
+            } else {
+                low.advance();
+                high.advance();
+                traverse.advance();
+            }
+        }
+        low.advance();
+        //Algorithms.iter_swap(low,pivot);
     }
 
 }
