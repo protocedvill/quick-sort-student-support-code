@@ -11,15 +11,30 @@ public class StudentTest {
 
     @Test
     public void quicksort() {
+        int CAP = 10;
         Random r = new Random();
-        Integer[] a = new Integer[1000];
-        for (int i = 0; i<1000; i++) {
-            a[i] = r.nextInt(10);
+        Integer[] a = new Integer[CAP];
+
+        for (int j = 0; j < CAP; j++) {
+            for (int i = 0; i < CAP; i++) {
+                a[i] = r.nextInt(CAP);
+            }
+            ArraySequence<Integer> array = new ArraySequence<>(a);
+            System.out.println(array);
+            QuickSort.quicksort(array.begin(), Algorithms.last(array.begin(), array.end()));
+            System.out.println(array);
+            System.out.println(checkSorted(array.begin().clone(), array.end().clone()));
+            //assertTrue(checkSorted(array.begin().clone(), array.end().clone()));
         }
-        ArraySequence<Integer> array = new ArraySequence<>(a);
-        System.out.println(array);
-        QuickSort.quicksort(array.begin(),Algorithms.last(array.begin(),array.end()));
-        System.out.println(array);
+    }
+
+    public boolean checkSorted(Iterator<Integer> begin, Iterator<Integer> end) {
+        int i = begin.get();
+        Iterator<Integer> j = begin.clone();
+        j.advance();
+        if (j.equals(end)) return true;
+        if (i > j.get()) return false;
+        return checkSorted(j, end);
     }
 
     @Test

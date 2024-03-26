@@ -11,16 +11,10 @@ public class QuickSort {
     public static <E extends Comparable<? super E>>
     void quicksort(Iterator<E> begin, Iterator<E> end) {
         if (begin.equals(end)) return;
-        Iterator<E> b = begin.clone();
-        Iterator<E> e = end.clone();
-        Iterator<E> pivot = partition(b,e);
-        if (length(begin.clone(), end.clone()) > 3) {
-            quicksort(begin.clone(), pivot.clone());
-            if (!pivot.equals(end)) {
-                pivot.advance();
-                quicksort(pivot.clone(), end.clone());
-            }
-        }
+        Iterator<E> pivot = partition(begin.clone(),end.clone());
+        quicksort(begin.clone(), pivot.clone());
+        pivot.advance();
+        quicksort(pivot.clone(),end.clone());
     }
 
     private static <E extends Comparable<? super E>>
@@ -68,21 +62,34 @@ public class QuickSort {
         Iterator<E> pivot = random(begin.clone(),end.clone());
         System.out.println(pivot);
         Algorithms.iter_swap(pivot,end);
-        pivot = end.clone();
+        //pivot = end.clone();
+
+        // i is small
+        // j is large
         Iterator<E> i = begin.clone();
         for (Iterator<E> j = begin.clone();;) {
-            if (0 > j.get().compareTo(pivot.get())) {
+            if (0 < j.get().compareTo(pivot.get())) {
                 System.out.println("swapping " + i + " & " + j);
+                if(i.equals(end)) break;
                 Algorithms.iter_swap(i, j);
                 i.advance();
+
+                System.out.println("(a) i = " + i + "; j = " + j);
+
             }
-            if (0 == j.get().compareTo(pivot.get())) {
-                System.out.println("equals");
+            else if (0 > j.get().compareTo(pivot.get())) {
+                if(i.equals(end)) break;
+                j.advance();
+
+                System.out.println("(b) i = " + i + "; j = " + j);
+            }
+            else {
+                j.advance();
+                System.out.println("(c) i = " + i + "; j = " + j);
             }
             if(j.equals(end)) break;
-            j.advance();
         }
-        Algorithms.iter_swap(i, end);
+        //if (length > 2) Algorithms.iter_swap(i, pivot);
         return i;
     }
 
